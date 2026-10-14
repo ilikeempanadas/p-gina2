@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · SAGA Notas</title>
+  <meta name="description" content="Plataforma académica para gestionar y consultar calificaciones.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><span class="brand-mark">S</span><span>SAGA<span class="brand-light">Notas</span></span></a>
+  <button class="menu-toggle" type="button" aria-label="Mostrar menú" onclick="document.body.classList.toggle('nav-open')">☰</button>
+  <nav class="nav">
+    <a href="/">Inicio</a><a href="/nosotros">Nosotros</a>
+    <% if (user) { %>
+      <a href="/dashboard">Mi panel</a>
+      <span class="user-chip"><%= user.full_name %></span>
+      <form method="post" action="/auth/logout" class="inline-form"><button class="nav-logout" type="submit">Salir ↗</button></form>
+    <% } else { %><a class="nav-cta" href="/auth/login">Iniciar sesión</a><% } %>
+  </nav>
+</header>
+<main class="main">
+<% if (flash) { %><div class="alert <%= flash.type === 'success' ? 'alert-success' : 'alert-error' %>" role="status"><%= flash.message %></div><% } %>

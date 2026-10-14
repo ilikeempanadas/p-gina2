@@ -1,0 +1,12 @@
+<%- include("partials/header", {title}) %>
+<section class="form-page"><a class="back-link" href="/docente">← Volver al panel</a><div class="form-heading"><span class="eyebrow">GESTIÓN DE CALIFICACIONES</span><h1><%= grade ? "Editar" : "Registrar" %> <span>nota.</span></h1><p>Usa una escala de 0.00 a 5.00. Los cambios quedan guardados en el sistema.</p></div>
+<div class="form-card"><form method="post" action="/docente/notas/guardar" class="form-stack" data-validate>
+<% if (grade) { %><input type="hidden" name="id" value="<%= grade.id %>"><% } %>
+<label for="course_id">Curso</label><select id="course_id" name="course_id" required><option value="">Selecciona un curso</option><% courses.forEach(c => { %><option value="<%= c.id %>" <%= grade && grade.course_id===c.id ? "selected" : "" %>><%= c.name %> · <%= c.code %></option><% }) %></select>
+<label for="student_id">Estudiante</label><select id="student_id" name="student_id" required><option value="">Selecciona un estudiante</option><% students.forEach(s => { %><option value="<%= s.id %>" data-course="<%= s.course_id %>" <%= grade && grade.student_id===s.id ? "selected" : "" %>><%= s.full_name %></option><% }) %></select>
+<label for="assessment">Actividad o evaluación</label><input id="assessment" name="assessment" required maxlength="120" placeholder="Ej. Taller de lectura" value="<%= grade ? grade.assessment : '' %>">
+<label for="score">Calificación (0 a 5)</label><input id="score" name="score" type="number" required min="0" max="5" step="0.01" placeholder="4.50" value="<%= grade ? Number(grade.score).toFixed(2) : '' %>">
+<label for="notes">Observación <span class="optional">(opcional)</span></label><textarea id="notes" name="notes" rows="3" maxlength="500" placeholder="Comentario para el seguimiento"><%= grade ? grade.notes : '' %></textarea>
+<div class="form-actions"><a class="btn btn-secondary" href="/docente">Cancelar</a><button class="btn btn-primary" type="submit">Guardar nota <span>→</span></button></div>
+</form></div></section>
+<%- include("partials/footer") %>
